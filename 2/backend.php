@@ -12,7 +12,9 @@
         }
     ?>
     </select>
-    <div id='#div'></div>
+    <div id='Nombre'>
+    
+    </div>
     <input type="submit" name='Repeticiones' id="Repeticiones" value='Enviar'>
 
 
@@ -30,9 +32,11 @@ $(document).ready(function() {
         };
         $.post("rep.php", params, function (d) {
                 if (d.autentificado) {
-                    
-                    for (var i = 0; i < d.num; i++) {
-                        $( "#div" ).text($("#articuloID").val());
+                    var nombre=$("#articuloID").val();
+                    alert(d.num);
+                    alert(nombre)
+                    for (var i = 0; i < parseInt(d.num); i++) {
+                        $( "#Nombre" ).append(nombre);
                     }
                 }
         });
