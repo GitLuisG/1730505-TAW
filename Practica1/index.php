@@ -5,5 +5,5 @@
 
  //Se crea un nuevo controlador llamado a la plantilla que mostrara al usuario
  $mvc = new MvcController();
- mvc->plantilla();
+ $mvc->plantilla();
 ?>

@@ -8,7 +8,7 @@ class MvcController{
     public function enlacesPaginasController(){
         //Verificar la variable 'action' que viene desde las url's de navegacion.
         if(isset($_GET["action"])){
-            $enlacesController = $_Get["action"];
+            $enlacesController = $_GET["action"];
         }else{
             $enlacesController = "index";
         }

@@ -1,12 +1,12 @@
 <nav>
     <ul>
         <li>
-        <a href="index.php?actiom=Inicio">Inicio</a>
+        <a href="index.php?action=inicio">Inicio</a>
         </li>
-        <li><a href="index.php?actiom=Contactenos">Contactenos</a></li>
+        <li><a href="index.php?action=contactenos">Contactenos</a></li>
         <li>
-        <a href="index.php?actiom=Nosotros">Nosotros</a></li>
+        <a href="index.php?action=nosotros">Nosotros</a></li>
         <li>
-        <a href="index.php?actiom=Servicios">Servicios</a></li>
+        <a href="index.php?action=servicios">Servicios</a></li>
     </ul>
 </nav>
