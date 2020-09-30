@@ -49,7 +49,7 @@
 	<header><h1>Bienvenidos a la práctica no. 1</h1></header>
 		<?php
 		//incluir el menú de navegación
-		include "navegacion.php"
+		include "modules/navegacion.php";
 		 ?>
 		 <section>
 		 	<!--contenedor donde se muestran las opciones del sistemaa -->
