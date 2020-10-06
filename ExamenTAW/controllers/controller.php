@@ -1,8 +1,10 @@
 <?php
 class MvcController{
+    
     public function plantilla(){
-        include "views/template.php";
+        include VIEWS['Template'];
     }
+
     // metodo para mostrar el contenido de las paginas
     public function enlaces(){
             if(isset($_GET['action'])){
@@ -47,18 +49,17 @@ class ControllerLibros{
             "edición "=>$_POST["inedición"],
             "ano"=>$_POST["inano"]
         );
-                //Enviamos al modelo el id para hacer la consulta y obtener sus Datos
-                $respuesta = Datos::editarLibroModel($datosController, "usuarios");
-
-                //Recibimos respuesta del modelo e IMPRIMOS UN FORM PARA Editar
-                echo '<input type="hidden" value="'.$respuesta["id"].'" name="idEditar">
-                <input type="text" value="'.$respuesta["ISBN"].'" name="usuarioEditar" required>
-                <input type="hidden" value="'.$respuesta["nombre"].'" name="passwordEditar" required>
-                <input type="hidden" value="'.$respuesta["autor"].'" name="emailEditar" required>
-                <input type="hidden" value="'.$respuesta["editorial"].'" name="emailEditar" required>
-                <input type="hidden" value="'.$respuesta["edición"].'" name="emailEditar" required>
-                <input type="hidden" value="'.$respuesta["ano"].'" name="emailEditar" required>
-                <input type="submit" value="Actualizar">';
+        //Enviamos al modelo el id para hacer la consulta y obtener sus Datos
+        $respuesta = Datos::editarLibroModel($datosController, "usuarios");
+        //Recibimos respuesta del modelo e IMPRIMOS UN FORM PARA Editar
+        echo '<input type="hidden" value="'.$respuesta["id"].'" name="idEditar">
+        <input type="text" value="'.$respuesta["ISBN"].'" name="usuarioEditar" required>
+        <input type="hidden" value="'.$respuesta["nombre"].'" name="passwordEditar" required>
+        <input type="hidden" value="'.$respuesta["autor"].'" name="emailEditar" required>
+        <input type="hidden" value="'.$respuesta["editorial"].'" name="emailEditar" required>
+        <input type="hidden" value="'.$respuesta["edición"].'" name="emailEditar" required>
+        <input type="hidden" value="'.$respuesta["ano"].'" name="emailEditar" required>
+        <input type="submit" value="Actualizar">';
     }
 
     //Metodo para eliminar libros
@@ -75,18 +76,18 @@ class ControllerLibros{
     //metodo para las vista de las tablas
     public function vistaLibros(){
         //Envío al modelo la variable de control y la tabla a donde se hará
-        $respuesta = Datos::vistaUsuariosModel("usuarios");
+        $respuesta = Datos::vistaLibrosModel();
         foreach($respuesta as $row => $item){
         echo '<tr>
         <td>'.$item["ISBN"].'</td>
         <td>'.$item["nombre"].'</td>
         <td>'.$item["autor"].'</td>
         <td>'.$item["editorial"].'</td>
-        <td>'.$item["edición"].'</td>
+        <td>'.$item["edicion"].'</td>
         <td>'.$item["ano"].'</td>
-        <td><a href="index.php?action=editar&id='.item["id"].'"<button> Editar </button></a></td>
+        <td><a href="index.php?action=libros&id='.$item["id"].'"<button> Editar </button></a></td>
         <!--COLUMNA PARA BORRAR-->
-        <td><a href="index.php?action=usuarios&idBorrar='.item["id"].'"<button> Eliminar </button></a></td>
+        <td><a href="index.php?action=libros&idBorrar='.$item["id"].'"<button> Eliminar </button></a></td>
          </tr>';
         }
     }
@@ -94,14 +95,17 @@ class ControllerLibros{
 }
 
 class ControllerUsuarios{
+
     //Metodo para registrar usuario
     public function regUsuario(){
         //Almaceno en una array los valores de la vista de registro
-        $datosController = array("usuario"=>$_POST["usuarioRegistro"],
-        "password"=>$_POST["passwordRegistro"],
-        "email"=>$_POST["emailRegistro"]);
+        $datosController = array(
+            "usuario"=>$_POST["usuarioRegistro"],
+            "password"=>$_POST["passwordRegistro"],
+            "email"=>$_POST["emailRegistro"]
+        );
         //Envíamos los parametros al modelo para que procese el registro
-        $respuesta = Datos::registroUsuarioModel($datosController,"usuarios");
+        $respuesta = Datos::registroUsuarioModel($datosController);
 
         //Recibir la respuesta de modelo para saber qué sucedió(Sucess o error)
         if($respuesta == "success"){
@@ -114,20 +118,23 @@ class ControllerUsuarios{
     //metodo para validar el ingreso
     public function ValidarUsuario(){
         if(isset($_POST["usuarioIngreso"])){
-            $datosController = array("usuario"=>$_POST["usuarioIngreso"],
-                                    "password"=>$_POST["passwordIngreso"]);
+            $datosController = array(
+                "usuario"=>$_POST["usuarioIngreso"],
+                "password"=>$_POST["passwordIngreso"],
+            );
             //Mandar valores del array al modelo
-            $respuesta = Datos::ingresoUsuarioModel($datosController,"usuarios");
+            $respuesta = Datos::ingresoUsuarioModel($datosController);
             //Recibe respuesta del modelo
-            if($respuesta["usuario"]==$_POST["usuarioIngreso"] && $respuesta["password"]==$_POST["passwordIngreso"]){
+            if($respuesta["usuario"]==$_POST["usuarioIngreso"] && $respuesta["contrasena"]==$_POST["passwordIngreso"]){
                 session_start();
                 $_SESSION["validar"]=true;
-                header("location:index.php?action=usuarios");
+                header("location:index.php?action=Bienvenido");
               }else{
                 header("location:index.php?action=fallo");
             }
           }
     }
+    
     //metodo para las vista de las tablas
     public function vistausuario(){
         //Envío al modelo la variable de control y la tabla a donde se hará
@@ -137,12 +144,13 @@ class ControllerUsuarios{
         <td>'.$item["usuario"].'</td>
         <td>'.$item["contrasena"].'</td>
         <td>'.$item["email"].'</td>
-        <td><a href="index.php?action=editar&id='.item["id"].'"<button> Editar </button></a></td>
+        <td><a href="index.php?action=editar&id='.$item["id"].'"<button> Editar </button></a></td>
         <!--COLUMNA PARA BORRAR-->
-        <td><a href="index.php?action=usuarios&idBorrar='.item["id"].'"<button> Eliminar </button></a></td>
+        <td><a href="index.php?action=usuarios&idBorrar='.$item["id"].'"<button> Eliminar </button></a></td>
          </tr>';
         }
     }
+
     // metodo para modificar los usuarios
     public function editarUsuario(){
         //solicitar el id del usuario a editar
@@ -187,8 +195,6 @@ class ControllerUsuarios{
              }
           }
     }
-
-
 
 }
 ?>
