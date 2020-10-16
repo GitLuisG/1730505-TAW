@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(!$_SESSION['"validar"']){
+if(!$_SESSION["validar"]){
 
     header("location: index.php?action=ingresar");
 
@@ -16,6 +16,7 @@ if(!$_SESSION['"validar"']){
 <?php
     $registro = new MvcController();
     $registro -> registroUsuarioController();
+    
     if(isset($_GET["action"])){
 
         if($_GET["action"] == "ok"){
